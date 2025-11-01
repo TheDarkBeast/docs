@@ -1,0 +1,55 @@
+site_name: Cyberdyne Docs
+site_description: Documentation for Cyberdyne Systems
+site_url: https://docs.pabxyz.com
+repo_url: https://github.com/cyberdyne/docs
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.expand
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+    - content.action.edit
+  palette:
+    primary: indigo
+    accent: deep purple
+  logo: assets/images/logo.png
+  favicon: assets/images/logo.png
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Setup:
+      - Installation: setup/install.md
+      - Configuration: setup/configuration.md
+  - Usage:
+      - Overview: usage/overview.md
+      - FAQ: usage/faq.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - pymdownx.emoji
+  - pymdownx.magiclink
+  - def_list
+
+plugins:
+  - search
+  - tags
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/cyberdyne
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/yourinvite

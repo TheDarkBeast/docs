@@ -1,0 +1,17 @@
+backend:
+  name: github
+  repo: TheDarkBeast/docs
+  branch: main
+
+media_folder: "docs/assets/images"
+public_folder: "assets/images"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    folder: "docs"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}

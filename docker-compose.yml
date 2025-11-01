@@ -1,0 +1,45 @@
+version: "3"
+services:
+  docs:
+    container_name: docs
+    image: squidfunk/mkdocs-material
+    hostname: docs
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    networks:
+      - saltbox
+    labels:
+      com.github.saltbox.saltbox_managed: true
+      traefik.enable: true
+
+      # --- HTTP Redirect ---
+      traefik.http.routers.docs-http.entrypoints: web
+      traefik.http.routers.docs-http.middlewares: globalHeaders@file,redirect-to-https@docker,cloudflarewarp@docker
+      traefik.http.routers.docs-http.rule: Host(`docs.pabxyz.com`)
+      traefik.http.routers.docs-http.service: docs
+
+      # --- HTTPS Router ---
+      traefik.http.routers.docs.entrypoints: websecure
+      traefik.http.routers.docs.middlewares: globalHeaders@file,secureHeaders@file,cloudflarewarp@docker
+      traefik.http.routers.docs.rule: Host(`docs.pabxyz.com`)
+      traefik.http.routers.docs.service: docs
+      traefik.http.routers.docs.tls.certresolver: cfdns
+      traefik.http.routers.docs.tls.options: securetls@file
+
+      # --- Internal Service Port ---
+      traefik.http.services.docs.loadbalancer.server.port: 8000
+
+    volumes:
+      - /opt/docs:/docs
+      - /etc/localtime:/etc/localtime:ro
+
+    command: serve -a 0.0.0.0:8000
+    # Optional: remove the line below if you want to serve static HTML instead
+    # command: build && python -m http.server 8000 --directory site
+
+networks:
+  saltbox:
+    external: true
